@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import { requireSecret } from '../config/environment';
 
 export class EncryptionUtil {
   private static readonly ALGORITHM = 'aes-256-gcm';
@@ -6,9 +7,10 @@ export class EncryptionUtil {
   private static readonly TAG_LENGTH = 16;
 
   private static getKey(): Buffer {
-    const secretKey =
-      process.env.ENCRYPTION_SECRET_KEY ||
-      'your-32-character-secret-key-here!!';
+    const secretKey = requireSecret(
+      'ENCRYPTION_SECRET_KEY',
+      process.env.ENCRYPTION_SECRET_KEY,
+    );
     return crypto.scryptSync(secretKey, 'salt', 32);
   }
 

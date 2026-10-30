@@ -6,10 +6,11 @@ import { ProductModule } from './product/product.module';
 import { ContactUsModule } from './contact-us/contact-us.module';
 import { AlertModule } from './alert/alert.module';
 import { AuthModule } from './auth/auth.module';
+import { validateEnvironment } from './config/environment';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
 
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
